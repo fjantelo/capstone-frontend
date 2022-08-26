@@ -1,12 +1,12 @@
 <template>
   <div class="login">
-    <h1>Login</h1>
+    <h1>Log in</h1>
     <p>Email:</p>
     <input type="text" />
     <p>Password:</p>
     <input type="text" />
     <p></p>
-    <button>Login</button>
+    <button>Log in</button>
   </div>
 </template>
 
