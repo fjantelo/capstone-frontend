@@ -1,19 +1,21 @@
 <template>
   <div class="signup">
-    <h1>Sign up</h1>
-    <ul>
-      <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
-    </ul>
-    <p>Name:</p>
-    <input type="text" v-model="newUserParams.name" />
-    <p>Email:</p>
-    <input type="text" v-model="newUserParams.email" />
-    <p>Password:</p>
-    <input type="password" v-model="newUserParams.password" />
-    <p>Password confirmation:</p>
-    <input type="password" v-model="newUserParams.password_confirmation" />
-    <p></p>
-    <button v-on:click="submit()">Sign up</button>
+    <form v-on:submit.prevent="submit()">
+      <h1>Sign up</h1>
+      <ul>
+        <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
+      </ul>
+      <p>Name:</p>
+      <input type="text" v-model="newUserParams.name" />
+      <p>Email:</p>
+      <input type="text" v-model="newUserParams.email" />
+      <p>Password:</p>
+      <input type="password" v-model="newUserParams.password" />
+      <p>Password confirmation:</p>
+      <input type="password" v-model="newUserParams.password_confirmation" />
+      <p></p>
+      <input type="submit" value="Submit" />
+    </form>
   </div>
 </template>
 
