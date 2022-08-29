@@ -5,6 +5,8 @@
     <router-link to="/signup">Sign up</router-link>
     |
     <router-link to="/login">Log in</router-link>
+    |
+    <router-link to="/logout">Log out</router-link>
   </nav>
   <router-view />
 </template>
