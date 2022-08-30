@@ -4,6 +4,7 @@ import LoginView from "../views/LoginView.vue";
 import SignupView from "../views/SignupView.vue";
 import LogoutView from "../views/LogoutView.vue";
 import PlaylistsNew from "../views/PlaylistsNew.vue";
+import PlaylistsShow from "../views/PlaylistsShow.vue";
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: "/playlists/new",
     name: "playlists-new",
     component: PlaylistsNew,
+  },
+  {
+    path: "/playlists/:id",
+    name: "playlists-show",
+    component: PlaylistsShow,
   },
 ];
 

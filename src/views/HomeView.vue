@@ -9,7 +9,9 @@
       <p>Welcome, {{ user }}</p>
       <h1>My Playlists</h1>
       <div v-for="playlist in playlists" v-bind:key="playlist.id">
-        <h3>{{ playlist.name }}</h3>
+        <router-link :to="`/playlists/${playlist.id}`">
+          <h3>{{ playlist.name }}</h3>
+        </router-link>
         <p>{{ playlist.description }}</p>
       </div>
     </div>
