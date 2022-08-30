@@ -7,7 +7,9 @@
     <router-link to="/login">Log in</router-link>
   </nav>
   <nav v-if="isLoggedIn">
-    <router-link to="/">Home</router-link>
+    <router-link to="/">My Playlists</router-link>
+    |
+    <router-link to="/playlists/new">New Playlist</router-link>
     |
     <router-link to="/logout">Log out</router-link>
   </nav>
