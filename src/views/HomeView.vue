@@ -7,6 +7,7 @@
     </div>
     <div>
       <p>Welcome, {{ user }}</p>
+      <button v-on:click="newPlaylist()">New Playlist</button>
       <h1>My Playlists</h1>
       <div v-for="playlist in playlists" v-bind:key="playlist.id">
         <h3>{{ playlist.name }}</h3>
@@ -37,6 +38,9 @@ export default {
         this.playlists = response.data;
         console.log("User's playlists:", this.playlists);
       });
+    },
+    newPlaylist: function () {
+      this.$router.push("/playlists/new");
     },
   },
 };
