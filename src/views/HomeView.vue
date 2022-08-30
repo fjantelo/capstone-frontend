@@ -1,11 +1,11 @@
 <template>
   <div class="home">
-    <div>
+    <div v-if="!isLoggedIn">
       <h1>CollabList</h1>
       <p>Create Music Playlists together with friends.</p>
       <p>To get started, Sign up or Log in.</p>
     </div>
-    <div>
+    <div v-if="isLoggedIn">
       <p>Welcome, {{ user }}</p>
       <button v-on:click="newPlaylist()">New Playlist</button>
       <h1>My Playlists</h1>
@@ -26,12 +26,19 @@ export default {
     return {
       playlists: [],
       user: "",
+      isLoggedIn: false,
     };
   },
   created: function () {
+    this.isLoggedIn = !!localStorage.jwt;
     this.user = localStorage.getItem("userName");
     this.indexPlaylists();
   },
+  // watch: {
+  //   $route: function () {
+  //     this.isLoggedIn = !!localStorage.jwt;
+  //   },
+  // },
   methods: {
     indexPlaylists: function () {
       axios.get("/playlists.json").then((response) => {
