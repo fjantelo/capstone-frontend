@@ -2,6 +2,11 @@
   <div class="playlists-show">
     <h1>{{ playlist.name }}</h1>
     <h4>{{ playlist.description }}</h4>
+    <form v-on:submit.prevent="searchSongs(searchQuery)">
+      <label>Search for a song to add:</label>
+      <input type="text" v-model="searchQuery" />
+      <input type="submit" value="Search" />
+    </form>
     <p v-for="song in songs" v-bind:key="song.id">{{ song.title }} by {{ song.artist }}</p>
     <h4>Users in this Playlist</h4>
     <p v-for="user in users" v-bind:key="user.id">{{ user.name }}</p>
@@ -20,6 +25,14 @@
       </div>
     </form>
   </dialog>
+  <dialog id="add-song">
+    <form method="dialog">
+      <div v-for="result in searchResults" v-bind:key="result">
+        <p>{{ result.snippet.title }}</p>
+      </div>
+      <button>Cancel</button>
+    </form>
+  </dialog>
 </template>
 
 <script>
@@ -32,12 +45,18 @@ export default {
       songs: [],
       users: [],
       newUserEmail: "",
+      searchQuery: "",
+      searchResults: [],
     };
   },
   methods: {
     addUserModal: function () {
       this.newUserEmail = "";
       document.querySelector("#add-user").showModal();
+    },
+    addSongModal: function () {
+      this.searchQuery = "";
+      document.querySelector("#add-song").showModal();
     },
     addUser: function () {
       axios
@@ -47,6 +66,14 @@ export default {
           this.users.push(response.data[1]);
         })
         .catch((error) => console.log(error.response));
+    },
+    searchSongs: function (query) {
+      this.searchResults = [];
+      axios.get(`/songs/search?query=${query}`).then((response) => {
+        this.searchResults = response.data.items;
+        console.log(this.searchResults);
+      });
+      this.addSongModal();
     },
   },
   created: function () {
