@@ -104,7 +104,7 @@ export default {
       this.addSongModal();
     },
     removeUser: function (user) {
-      axios.delete("/user_playlists", { user_id: user.id, playlist_id: this.$route.params.id }).then((response) => {
+      axios.delete(`/user_playlists?user_id=${user.id}&playlist_id=${this.$route.params.id}`).then((response) => {
         console.log("Success!", response.data);
         this.$router.go();
       });
