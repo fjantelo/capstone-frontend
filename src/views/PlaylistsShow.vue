@@ -7,7 +7,9 @@
       <input type="text" v-model="searchQuery" />
       <input type="submit" value="Search" />
     </form>
-    <p v-for="song in songs" v-bind:key="song.id">{{ song.title }} by {{ song.artist }}</p>
+    <div v-for="song in songs" v-bind:key="song.id">
+      <p>{{ song.title }}</p>
+    </div>
     <h4>Users in this Playlist</h4>
     <p v-for="user in users" v-bind:key="user.id">{{ user.name }}</p>
     <button v-on:click="addUserModal()">Add User</button>
