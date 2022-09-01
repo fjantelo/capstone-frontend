@@ -1,5 +1,6 @@
 <template>
   <div class="playlists-show">
+    <p>Welcome, {{ userName }}</p>
     <h1>{{ playlist.name }}</h1>
     <h4>{{ playlist.description }}</h4>
     <form v-on:submit.prevent="searchSongs(searchQuery)">
@@ -11,7 +12,12 @@
       <p>{{ song.title }}</p>
     </div>
     <h4>Users in this Playlist</h4>
-    <p v-for="user in users" v-bind:key="user.id">{{ user.name }}</p>
+    <div v-for="user in users" v-bind:key="user.id">
+      <p v-if="user.id != userId">
+        {{ user.name }}
+        <button v-on:click="removeUser(user)">Remove</button>
+      </p>
+    </div>
     <button v-on:click="addUserModal()">Add User</button>
   </div>
   <dialog id="add-user">
@@ -47,6 +53,8 @@ import axios from "axios";
 export default {
   data: function () {
     return {
+      userName: "",
+      userId: 0,
       playlist: {},
       songs: [],
       users: [],
@@ -84,6 +92,7 @@ export default {
         })
         .then((response) => {
           console.log(response.data);
+          this.$router.go();
         });
     },
     searchSongs: function (query) {
@@ -94,8 +103,16 @@ export default {
       });
       this.addSongModal();
     },
+    removeUser: function (user) {
+      axios.delete("/user_playlists", { user_id: user.id, playlist_id: this.$route.params.id }).then((response) => {
+        console.log("Success!", response.data);
+        this.$router.go();
+      });
+    },
   },
   created: function () {
+    this.userName = localStorage.getItem("userName");
+    this.userId = localStorage.getItem("userId");
     axios.get("/playlists/" + this.$route.params.id + ".json").then((response) => {
       this.playlist = response.data;
       this.songs = response.data.songs;
