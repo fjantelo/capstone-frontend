@@ -28,8 +28,12 @@
   <dialog id="add-song">
     <form method="dialog">
       <div v-for="result in searchResults" v-bind:key="result">
-        <p>{{ result.snippet.title }}</p>
+        <h3>{{ result.snippet.title }}</h3>
+        <p>{{ result.snippet.description }}</p>
+        <p>Channel: {{ result.snippet.channelTitle }}</p>
+        <button v-on:click="createSong(result)">Add to playlist</button>
       </div>
+      <p></p>
       <button>Cancel</button>
     </form>
   </dialog>
@@ -66,6 +70,19 @@ export default {
           this.users.push(response.data[1]);
         })
         .catch((error) => console.log(error.response));
+    },
+    createSong: function (song) {
+      axios
+        .post("/songs.json", {
+          url: song.id.videoId,
+          channel: song.snippet.channelTitle,
+          title: song.snippet.title,
+          thumbnail: song.snippet.thumbnails.high.url,
+          playlist_id: this.$route.params.id,
+        })
+        .then((response) => {
+          console.log(response.data);
+        });
     },
     searchSongs: function (query) {
       this.searchResults = [];
