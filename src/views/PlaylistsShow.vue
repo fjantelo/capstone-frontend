@@ -9,7 +9,10 @@
       <input type="submit" value="Search" />
     </form>
     <div v-for="song in songs" v-bind:key="song.id">
-      <p>{{ song.title }}</p>
+      <p>
+        {{ song.title }}
+        <button v-on:click="removeSong(song)">Remove</button>
+      </p>
     </div>
     <h4>Users in this Playlist</h4>
     <div v-for="user in users" v-bind:key="user.id">
@@ -105,6 +108,12 @@ export default {
     },
     removeUser: function (user) {
       axios.delete(`/user_playlists?user_id=${user.id}&playlist_id=${this.$route.params.id}`).then((response) => {
+        console.log("Success!", response.data);
+        this.$router.go();
+      });
+    },
+    removeSong: function (song) {
+      axios.delete(`/songs/${song.id}`).then((response) => {
         console.log("Success!", response.data);
         this.$router.go();
       });
