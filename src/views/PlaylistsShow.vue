@@ -11,6 +11,7 @@
     <div v-for="song in songs" v-bind:key="song.id">
       <p>
         {{ song.title }}
+        <button v-on:click="playSongModal(song.url)">Play</button>
         <button v-on:click="removeSong(song)">Remove</button>
       </p>
     </div>
@@ -48,6 +49,21 @@
       <button>Cancel</button>
     </form>
   </dialog>
+  <dialog id="play-song">
+    <form method="dialog">
+      <iframe
+        width="560"
+        height="315"
+        :src="`https://www.youtube.com/embed/${songURL}`"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+      <p></p>
+      <button>Exit</button>
+    </form>
+  </dialog>
 </template>
 
 <script>
@@ -64,6 +80,7 @@ export default {
       newUserEmail: "",
       searchQuery: "",
       searchResults: [],
+      songURL: "",
     };
   },
   methods: {
@@ -74,6 +91,11 @@ export default {
     addSongModal: function () {
       this.searchQuery = "";
       document.querySelector("#add-song").showModal();
+    },
+    playSongModal: function (url) {
+      // load song, then open modal with the appropriate link
+      this.songURL = url;
+      document.querySelector("#play-song").showModal();
     },
     addUser: function () {
       axios
