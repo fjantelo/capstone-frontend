@@ -14,6 +14,7 @@
         </router-link>
         <p>{{ playlist.description }}</p>
         <button v-on:click="leavePlaylist(playlist)">Leave Playlist</button>
+        <p></p>
       </div>
     </div>
   </div>

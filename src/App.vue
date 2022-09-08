@@ -20,15 +20,16 @@
       @change-player-state="playPause"
       :player-state="playerState"
     />
+    <MusicPlayer
+      v-if="isLoggedIn"
+      class="fixed-bottom"
+      ref="MusicPlayer"
+      @change-song="updateCurrentSong"
+      @change-player-state="updatePlayerState"
+      :current-song="currentSong"
+      :player-state="playerState"
+    />
   </div>
-  <MusicPlayer
-    class="fixed-bottom"
-    ref="MusicPlayer"
-    @change-song="updateCurrentSong"
-    @change-player-state="updatePlayerState"
-    :current-song="currentSong"
-    :player-state="playerState"
-  />
 </template>
 
 <script>

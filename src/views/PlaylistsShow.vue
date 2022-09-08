@@ -7,6 +7,7 @@
       <label>Search for a song to add:</label>
       <input type="text" v-model="searchQuery" />
       <input type="submit" value="Search" />
+      <p></p>
     </form>
     <div v-for="song in songs" v-bind:key="song.url">
       <p>
