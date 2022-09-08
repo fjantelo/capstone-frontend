@@ -8,10 +8,13 @@
       <input type="text" v-model="searchQuery" />
       <input type="submit" value="Search" />
     </form>
-    <div v-for="song in songs" v-bind:key="song.id">
+    <div v-for="song in songs" v-bind:key="song.url">
       <p>
         {{ song.title }}
-        <button v-on:click="playSongModal(song.url)">Play</button>
+        <!-- Song Modal -->
+        <button v-on:click="playSongModal(song.url)">Play Video</button>
+        <!-- Use MusicPlayer component -->
+        <button v-on:click="playPauseButtonHandler(song)">Play</button>
         <button v-on:click="removeSong(song)">Remove</button>
       </p>
     </div>
@@ -70,6 +73,8 @@
 import axios from "axios";
 
 export default {
+  emits: ["changeSong", "changePlayerState"],
+  props: { currentSong: Object, playerState: Boolean },
   data: function () {
     return {
       userName: "",
@@ -140,6 +145,31 @@ export default {
         this.$router.go();
       });
     },
+    playPauseButtonHandler(song) {
+      // check if the song on which this button was clicked is the current song
+      // Yes => check playerState
+      // playing => pause
+      // paused => play
+      // No => change song
+      console.log("song.url: ", song.url);
+      console.log("this.currentSong.url: ", this.currentSong.url);
+      if (song.url === this.currentSong.url) {
+        this.$emit("changePlayerState", !this.playerState);
+      } else {
+        // Determine which songs are following the current song
+        let upNext = this.songs.filter((s) => this.songs.indexOf(s) > this.songs.indexOf(song));
+        // console.log(upNext.map((s) => s.title));
+        console.log(song);
+        console.log(upNext);
+        this.$emit("changeSong", song, upNext);
+      }
+    },
+    changeSongLocal: function (song) {
+      // Determine which songs are following the current song
+      let upNext = this.songs.filter((s) => this.songs.indexOf(s) > this.songs.indexOf(song));
+      // console.log(upNext.map((s) => s.title));
+      this.$emit("changeSong", song, upNext);
+    },
   },
   created: function () {
     this.userName = localStorage.getItem("userName");
@@ -152,3 +182,46 @@ export default {
   },
 };
 </script>
+
+<style>
+.play-btn,
+.pause-btn,
+.add-btn,
+.added-btn {
+  fill: var(--font-high);
+}
+.play-btn:hover,
+.pause-btn:hover,
+.add-btn:hover,
+.added-btn:hover {
+  cursor: pointer;
+}
+/* .play-btn .p1 {
+  d: path("M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z");
+}
+.play-btn .p2 {
+  d: path(
+    "M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"
+  );
+}
+.play-btn:hover path {
+  d: path(
+    "M0 12V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm6.79-6.907A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z"
+  );
+}
+.pause-btn .p1 {
+  d: path(
+    "M6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5zm3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5z"
+  );
+}
+.pause-btn .p2 {
+  d: path(
+    "M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"
+  );
+}
+.pause-btn:hover path {
+  d: path(
+    "M0 12V4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm6.25-7C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5zm3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5z"
+  );
+} */
+</style>
