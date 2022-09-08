@@ -56,7 +56,9 @@
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
         ></iframe>
+        <p></p>
         <button v-on:click="createSong(result)">Add to playlist</button>
+        <p></p>
       </div>
       <p></p>
       <button>Cancel</button>
