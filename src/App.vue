@@ -13,12 +13,14 @@
     |
     <router-link to="/logout">Log out</router-link>
   </nav>
-  <router-view
-    @change-song="passChangeSong"
-    :current-song="currentSong"
-    @change-player-state="playPause"
-    :player-state="playerState"
-  />
+  <div style="margin-top: 10px; margin-bottom: 70px">
+    <router-view
+      @change-song="passChangeSong"
+      :current-song="currentSong"
+      @change-player-state="playPause"
+      :player-state="playerState"
+    />
+  </div>
   <MusicPlayer
     class="fixed-bottom"
     ref="MusicPlayer"

@@ -46,6 +46,15 @@
         <h3>{{ result.snippet.title }}</h3>
         <p>{{ result.snippet.description }}</p>
         <p>Channel: {{ result.snippet.channelTitle }}</p>
+        <iframe
+          width="560"
+          height="315"
+          :src="`https://www.youtube.com/embed/${result.id.videoId}`"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
         <button v-on:click="createSong(result)">Add to playlist</button>
       </div>
       <p></p>
