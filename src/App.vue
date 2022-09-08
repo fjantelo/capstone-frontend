@@ -51,7 +51,7 @@ export default {
   methods: {
     // This method is called when one of the other views emits the changeSong event. The argument is listening for the payload emitted, so even though the @change-song="passChangeSong" does not contain an argument, it is required here.
     playPause() {
-      this.$refs.musicPlayer.playPause();
+      this.$refs.MusicPlayer.playPause();
     },
     updatePlayerState() {
       this.playerState = !this.playerState;
