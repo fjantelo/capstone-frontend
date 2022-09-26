@@ -3,6 +3,8 @@
     <p>Welcome, {{ userName }}</p>
     <h1>{{ playlist.name }}</h1>
     <h4>{{ playlist.description }}</h4>
+    <button v-on:click="deletePlaylistModal()">Delete Playlist</button>
+    <p></p>
     <form v-on:submit.prevent="searchSongs(searchQuery)">
       <label>Search for a song to add:</label>
       <input type="text" v-model="searchQuery" />
@@ -79,6 +81,13 @@
       <button>Exit</button>
     </form>
   </dialog>
+  <dialog id="delete-playlist">
+    <form method="dialog">
+      <h4>Are you sure? Playlist will be permanently deleted for all users.</h4>
+      <button v-on:click="deletePlaylist()">Delete it</button>
+      <button>Cancel</button>
+    </form>
+  </dialog>
 </template>
 
 <script>
@@ -113,6 +122,9 @@ export default {
       // load song, then open modal with the appropriate link
       this.songURL = url;
       document.querySelector("#play-song").showModal();
+    },
+    deletePlaylistModal: function () {
+      document.querySelector("#delete-playlist").showModal();
     },
     addUser: function () {
       axios
@@ -155,6 +167,12 @@ export default {
       axios.delete(`/songs/${song.id}`).then((response) => {
         console.log("Success!", response.data);
         this.$router.go();
+      });
+    },
+    deletePlaylist: function () {
+      axios.delete(`/playlists/${this.$route.params.id}`).then((response) => {
+        console.log("Playlist successfully deleted.", response.data);
+        this.$router.push("/");
       });
     },
     playPauseButtonHandler(song) {
